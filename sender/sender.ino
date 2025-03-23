@@ -8,7 +8,8 @@
 #include <WiFi.h>
 
 // REPLACE WITH THE RECEIVER'S MAC Address
-uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+// ESP Board MAC Address: 08:3a:f2:57:5a:04
+uint8_t broadcastAddress[] = {0x08, 0x3A, 0xF2, 0x57, 0x5A, 0x04};
 
 // Structure example to send data
 // Must match the receiver structure

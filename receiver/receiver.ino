@@ -69,6 +69,7 @@ void loop() {
   int board2Y = boardsStruct[1].y;
   int board3X = boardsStruct[2].x;
   int board3Y = boardsStruct[2].y;*/
+  Serial.println("Error initializing ESP-NOW");
 
   delay(10000);  
 }
