@@ -5,20 +5,19 @@
 #define rst 14
 #define dio0 2
  
-// Pines para los 8 botones (puedes cambiarlos si alguno está ocupado)
-#define BTN1  15
-#define BTN2  16
-#define BTN3  17
-#define BTN4  18
-#define BTN5  19
-#define BTN6  21
-#define BTN7  22
-#define BTN8  23
+// Pines para los 7 botones (sin conflicto con LoRa)
+#define BTN1  4
+#define BTN2  12
+#define BTN3  13
+#define BTN4  15
+#define BTN5  25
+#define BTN6  26
+#define BTN7  27
 
 int counter = 0;
 
 // Estados previos para detección de flanco
-bool lastBtnState[8] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
+bool lastBtnState[7] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
 
 void setup() 
 {
@@ -44,14 +43,13 @@ void setup()
   pinMode(BTN5, INPUT_PULLUP);
   pinMode(BTN6, INPUT_PULLUP);
   pinMode(BTN7, INPUT_PULLUP);
-  pinMode(BTN8, INPUT_PULLUP);
 }
  
 void loop() 
 {
   // Revisa cada botón y envía un mensaje si se presiona
-  int btnPins[8] = {BTN1, BTN2, BTN3, BTN4, BTN5, BTN6, BTN7, BTN8};
-  for (int i = 0; i < 8; i++) {
+  int btnPins[7] = {BTN1, BTN2, BTN3, BTN4, BTN5, BTN6, BTN7};
+  for (int i = 0; i < 7; i++) {
     bool btnState = digitalRead(btnPins[i]);
     if (lastBtnState[i] == HIGH && btnState == LOW) { // flanco descendente
       // Envía mensaje LoRa
