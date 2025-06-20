@@ -64,25 +64,30 @@ void setup() {
 void loop() {
   int packetSize = LoRa.parsePacket();  // try to parse packet
   if (packetSize) {
-
-    Serial.print("Received packet '");
-
+    String LoRaData = "";
     while (LoRa.available())  // read packet
     {
-      String LoRaData = LoRa.readString();
-      Serial.print(LoRaData);
-      Serial.print("' with RSSI ");  // print RSSI of packet
-      Serial.println(LoRa.packetRssi());
-      counter++;
-      Serial.print("Counter: ");
-      Serial.println(counter);
-      int mod_counter = counter % 10;
-      if (mod_counter == 0) {
-        mp3.stop();
-      } else {
-        mp3.playTrack(mod_counter);
-      }
+      LoRaData += LoRa.readString();
     }
-
+    Serial.print("Received packet: ");
+    Serial.println(LoRaData);
+    // Buscar el número de botón en el mensaje
+    int boton = -1;
+    int idx = LoRaData.indexOf("Boton ");
+    if (idx != -1) {
+      int start = idx + 6; // después de "Boton "
+      int end = LoRaData.indexOf(' ', start);
+      if (end == -1) end = LoRaData.length();
+      String numStr = LoRaData.substring(start, end);
+      boton = numStr.toInt();
+    }
+    if (boton >= 1 && boton <= 8) {
+      Serial.print("Ejecutando acción para botón: ");
+      Serial.println(boton);
+      mp3.playTrack(boton); // Reproduce la pista correspondiente al botón
+    } else {
+      Serial.println("Mensaje no reconocido o fuera de rango");
+    }
   }
+  delay(2); // Pequeño delay para evitar sobrecalentamiento
 }
